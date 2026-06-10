@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Matematika Kelas 5</title>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #dbeafe, #fef3c7);
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    h1 { color: #2563eb; }
+    button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        margin: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100%;
+    }
+    button:hover { background: #1e40af; }
+    .option {
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+        background: #f1f5f9;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" id="start">
+    <h1>🎓 Kuis Matematika</h1>
+    <p>SDN 3 Kesiman</p>
+    <input type="text" id="nama" placeholder="Masukkan Nama" style="padding:10px;width:90%;border-radius:10px;border:1px solid #ccc;">
+    <br><br>
+    <button onclick="mulai()">Mulai</button>
+</div>
+
+<div class="container" id="quiz" style="display:none;">
+    <h2 id="soal"></h2>
+    <div id="opsi"></div>
+</div>
+
+<div class="container" id="hasil" style="display:none;">
+    <h2>🎉 Hasil</h2>
+    <p id="namaHasil"></p>
+    <p id="skor"></p>
+</div>
+
+<script>
+const soal = [
+    {
+        tanya: "25 x 4 = ?",
+        opsi: ["80", "90", "100", "75"],
+        benar: 2
+    },
+    {
+        tanya: "1/2 + 1/4 = ?",
+        opsi: ["3/4", "2/4", "1/4", "1"],
+        benar: 0
+    },
+    {
+        tanya: "120 : 6 = ?",
+        opsi: ["10", "20", "30", "15"],
+        benar: 1
+    },
+    {
+        tanya: "Keliling persegi sisi 5 cm adalah?",
+        opsi: ["20 cm", "25 cm", "10 cm", "15 cm"],
+        benar: 0
+    },
+    {
+        tanya: "7 x 8 = ?",
+        opsi: ["54", "56", "64", "58"],
+        benar: 1
+    }
+];
+
+let index = 0;
+let skor = 0;
+let nama = "";
+
+function mulai() {
+    nama = document.getElementById("nama").value;
+    if (nama === "") return alert("Isi nama dulu ya!");
+    document.getElementById("start").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    tampilSoal();
+}
+
+function tampilSoal() {
+    let s = soal[index];
+    document.getElementById("soal").innerText = s.tanya;
+    let opsiHTML = "";
+    s.opsi.forEach((o, i) => {
+        opsiHTML += `<div class="option" onclick="jawab(${i})">${o}</div>`;
+    });
+    document.getElementById("opsi").innerHTML = opsiHTML;
+}
+
+function jawab(pilihan) {
+    if (pilihan === soal[index].benar) skor++;
+    index++;
+    if (index < soal.length) {
+        tampilSoal();
+    } else {
+        selesai();
+    }
+}
+
+function selesai() {
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("hasil").style.display = "block";
+    document.getElementById("namaHasil").innerText = "Nama: " + nama;
+    document.getElementById("skor").innerText = "Skor: " + skor + " / " + soal.length;
+}
+</script>
+
+</body>
+</html>
